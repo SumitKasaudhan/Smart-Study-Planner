@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book"></i> Smart Study Planner</h1>
+            <p>Organize your study schedule and track your academic progress</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="sidebar">
+                <div class="profile">
+                    <div class="profile-pic">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Student Dashboard</h3>
+                </div>
+                <nav>
+                    <ul>
+                        <li class="active" data-tab="tasks"><i class="fas fa-tasks"></i> Tasks</li>
+                        <li data-tab="calendar"><i class="fas fa-calendar-alt"></i> Calendar</li>
+                        <li data-tab="progress"><i class="fas fa-chart-line"></i> Progress</li>
+                        <li data-tab="settings"><i class="fas fa-cog"></i> Settings</li>
+                    </ul>
+                </nav>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h4>Pending Tasks</h4>
+                        <p id="pending-count">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Completed</h4>
+                        <p id="completed-count">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="tab-content active" id="tasks">
+                    <div class="add-task">
+                        <h2>Add New Study Task</h2>
+                        <form id="task-form">
+                            <div class="form-group">
+                                <label for="task-name">Task Name:</label>
+                                <input type="text" id="task-name" required placeholder="e.g., Read Chapter 5">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject:</label>
+                                <input type="text" id="subject" required placeholder="e.g., Mathematics">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="due-date">Due Date:</label>
+                                    <input type="date" id="due-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="priority">Priority:</label>
+                                    <select id="priority">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="estimated-time">Estimated Time (minutes):</label>
+                                <input type="number" id="estimated-time" min="5" step="5" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Notes:</label>
+                                <textarea id="notes" placeholder="Any additional details..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-add">Add Task</button>
+                        </form>
+                    </div>
+
+                    <div class="task-list">
+                        <h2>Your Study Tasks</h2>
+                        <div class="filters">
+                            <select id="filter-priority">
+                                <option value="all">All Priorities</option>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+                            <select id="filter-status">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <input type="text" id="search-task" placeholder="Search tasks...">
+                        </div>
+                        <div id="tasks-container">
+                            <!-- Tasks will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="calendar">
+                    <h2>Study Calendar</h2>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                            <h3 id="current-month">September 2023</h3>
+                            <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="weekdays">
+                            <div>Sun</div>
+                            <div>Mon</div>
+                            <div>Tue</div>
+                            <div>Wed</div>
+                            <div>Thu</div>
+                            <div>Fri</div>
+                            <div>Sat</div>
+                        </div>
+                        <div class="calendar-days" id="calendar-days">
+                            <!-- Calendar days will be generated here -->
+                        </div>
+                    </div>
+                    <div class="day-tasks" id="day-tasks">
+                        <h3 id="selected-date">No date selected</h3>
+                        <div id="day-tasks-list">
+                            <!-- Tasks for the selected day will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="progress">
+                    <h2>Your Study Progress</h2>
+                    <div class="progress-stats">
+                        <div class="progress-card">
+                            <h3>Weekly Completion Rate</h3>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="weekly-progress" style="width: 0%;">0%</div>
+                            </div>
+                        </div>
+                        <div class="progress-card">
+                            <h3>Monthly Completion Rate</h3>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="monthly-progress" style="width: 0%;">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="subject-breakdown">
+                        <h3>Subject Breakdown</h3>
+                        <div id="subject-stats">
+                            <!-- Subject stats will be added here -->
+                        </div>
+                    </div>
+                    <div class="time-spent">
+                        <h3>Time Spent Studying</h3>
+                        <div class="time-chart" id="time-chart">
+                            <!-- Time chart will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="settings">
+                    <h2>Settings</h2>
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="setting-item">
+                            <label for="enable-notifications">Enable Reminder Notifications</label>
+                            <input type="checkbox" id="enable-notifications" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label for="notification-time">Reminder Time (hours before deadline)</label>
+                            <input type="number" id="notification-time" min="1" max="48" value="24">
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Data Management</h3>
+                        <button id="export-data" class="btn-secondary">Export Your Data</button>
+                        <button id="import-data" class="btn-secondary">Import Data</button>
+                        <button id="clear-data" class="btn-danger">Clear All Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Template (Hidden) -->
+    <template id="task-template">
+        <div class="task-item" data-id="">
+            <div class="task-header">
+                <h3 class="task-title"></h3>
+                <span class="task-priority"></span>
+            </div>
+            <div class="task-details">
+                <p><strong>Subject:</strong> <span class="task-subject"></span></p>
+                <p><strong>Due:</strong> <span class="task-due-date"></span></p>
+                <p><strong>Estimated Time:</strong> <span class="task-time"></span> minutes</p>
+                <p class="task-notes"></p>
+            </div>
+            <div class="task-actions">
+                <button class="btn-complete"><i class="fas fa-check"></i></button>
+                <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                <button class="btn-delete"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
